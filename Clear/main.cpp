@@ -27,7 +27,7 @@ int main()
     colorAttachmentDesc->setTexture(texture);
     colorAttachmentDesc->setLoadAction(MTL::LoadActionClear);
     colorAttachmentDesc->setStoreAction(MTL::StoreActionStore);
-    colorAttachmentDesc->setClearColor(MTL::ClearColor(1.0, 0.5, 0.0, 1.0));
+    colorAttachmentDesc->setClearColor(MTL::ClearColor(1.0, 0.0, 0.0, 0.0));
     renderPassDesc->setRenderTargetArrayLength(1);
     
     auto renderCommandEncoder = commandBuffer->renderCommandEncoder(renderPassDesc);
@@ -46,7 +46,7 @@ int main()
     for (uint32_t i=0; i<width*height; i++)
     {
       std::cout<<(uint32_t)data[i]<<' ';
-      assert(data[i] == 0xFF0080FF);
+      assert(data[i] == 0x000000FF);
     }
     std::cout<<'\n';
 
@@ -55,6 +55,20 @@ int main()
   texture->release();
   commandQueue->release();
 
+/*
+
+    
+
+    commandBuffer.Commit();
+    commandBuffer.WaitUntilCompleted();
+
+    uint32_t data[width * height];
+    texture.GetBytes(data, width * 4, MTL::Region(0, 0, width, height), 0);
+
+    for (uint32_t i=0; i<width*height; i++)
+    {
+        assert(data[i] == 0x000000FF);
+    }*/
 
     return 0;
 }

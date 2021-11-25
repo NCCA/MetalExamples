@@ -4,15 +4,15 @@
 #include "Metal.hpp"  
 #include <iostream>
 
+
+
 // from this https://github.com/naleksiev/MTL/blob/master/examples/01_clear.cpp
 int main()
 {
     const uint32_t width  = 24;
     const uint32_t height = 24;
-
     auto device = MTL::CreateSystemDefaultDevice();
     assert(device);
-
     auto *textureDesc = MTL::TextureDescriptor::texture2DDescriptor(MTL::PixelFormatRGBA8Unorm, width, height, false);
     textureDesc->setUsage(MTL::TextureUsageRenderTarget);
     auto texture = device->newTexture(textureDesc);
@@ -50,25 +50,10 @@ int main()
     }
     std::cout<<'\n';
 
-  device->release();
-  textureDesc->release();
-  texture->release();
-  commandQueue->release();
 
-/*
-
-    
-
-    commandBuffer.Commit();
-    commandBuffer.WaitUntilCompleted();
-
-    uint32_t data[width * height];
-    texture.GetBytes(data, width * 4, MTL::Region(0, 0, width, height), 0);
-
-    for (uint32_t i=0; i<width*height; i++)
-    {
-        assert(data[i] == 0x000000FF);
-    }*/
-
-    return 0;
+  // device->release();
+  // textureDesc->release();
+  // texture->release();
+  // commandQueue->release();
+  return EXIT_SUCCESS;
 }

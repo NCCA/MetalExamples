@@ -4,7 +4,7 @@
 #include "Metal.hpp"  
 #include <iostream>
 #include <cstdlib>
-
+// based on https://github.com/naleksiev/mtlpp/blob/master/examples/02_triangle.cpp
 int main()
 {
     const uint32_t width  = 16;
@@ -15,22 +15,21 @@ int main()
     textureDesc->setUsage(MTL::TextureUsageRenderTarget);
     auto texture = device->newTexture(textureDesc);
 
-    auto *shader=NS::String::string(R"""(
-        #include <metal_stdlib>
-        using namespace metal;
+    auto *shader=NS::String::string(
+R"""(
+#include <metal_stdlib>
+using namespace metal;
 
-        vertex float4 vertFunc (
-            const device packed_float3* vertexArray [[buffer(0)]],
-            unsigned int vID[[vertex_id]])
-        {
-            return float4(vertexArray[vID], 1.0);
-        }
+vertex float4 vertFunc(const device packed_float3* vertexArray [[buffer(0)]],unsigned int vID[[vertex_id]])
+{
+    return float4(vertexArray[vID], 1.0);
+}
 
-        fragment half4 fragFunc ()
-        {
-            return half4(1.0);
-        }
-    )""",NS::ASCIIStringEncoding);
+fragment half4 fragFunc ()
+{
+    return half4(1.0);
+}
+)""",NS::ASCIIStringEncoding);
     auto *compileOptions = MTL::CompileOptions::alloc()->init();
 
     auto *errorDictionary = NS::Dictionary::dictionary();

@@ -1,5 +1,7 @@
 # SDLMetal
 
+![](./SDLTriangle.png)
+
 I'm unsure if this is still the best approach to this.
 
 If using ObjectiveC you can access the metal layer using
@@ -46,4 +48,7 @@ id<CAMetalDrawable> surface = [swapchain nextDrawable];
 [buffer commit];
 ```
 
-I will investigate more when I get a chance.
+
+## ToDo
+
+- The colours are specificed as BGRA which is a little weird so that may need to be investigated

@@ -100,28 +100,5 @@ fragment half4 fragFunc ()
         printf("\n");
     }
 
-/*
-
-   
-
-    mtlpp::BlitCommandEncoder blitCommandEncoder = commandBuffer.BlitCommandEncoder();
-    blitCommandEncoder.Synchronize(texture, 0, 0);
-    blitCommandEncoder.EndEncoding();
-
-    commandBuffer.Commit();
-    commandBuffer.WaitUntilCompleted();
-
-    uint8_t data[width * height];
-    texture.GetBytes(data, width, mtlpp::Region(0, 0, width, height), 0);
-
-    for (uint32_t y=0; y<height; y++)
-    {
-        for (uint32_t x=0; x<width; x++)
-        {
-            printf("%02X ", data[x + y * width]);
-        }
-        printf("\n");
-    }*/
-
     return EXIT_SUCCESS;
 }

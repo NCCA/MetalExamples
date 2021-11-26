@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.12)
+#-------------------------------------------------------------------------------------------
+# I'm going to use vcpk in most cases for our install of 3rd party libs
+# this is going to check the environment variable for CMAKE_TOOLCHAIN_FILE and this must point to where
+# vcpkg.cmake is in the University this is set in your .bash_profile to
+# export CMAKE_TOOLCHAIN_FILE=/public/devel/2020/vcpkg/scripts/buildsystems/vcpkg.cmake
+# to build see the NGL instructions 
+# Windows :- mkdir build; cd build ; cmake -DCMAKE_PREFIX_PATH=~/NGL/ .. ; cmake --build . 
+# Linux / Mac mkdir build; cd build; cmake -DCMAKE_PREFIX_PATH~/NGL/ .. ; make
+#-------------------------------------------------------------------------------------------
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND DEFINED ENV{CMAKE_TOOLCHAIN_FILE})
+   set(CMAKE_TOOLCHAIN_FILE $ENV{CMAKE_TOOLCHAIN_FILE})
+endif()
+
+# Name of the project
+project(SDLMetal_build)
+# This is the name of the Exe change this and it will change everywhere
+set(TargetName SDLMetal)
+# Now include the SDL libraries, which need to be installed using vcpkg
+find_package(SDL2 CONFIG REQUIRED)
+# use C++ 17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
+# Set the name of the executable we want to build
+add_executable(${TargetName})
+include_directories(../include)
+target_sources(${TargetName} PRIVATE ${PROJECT_SOURCE_DIR}/main.cpp )
+
+# Link in the SDL2 libraries
+target_link_libraries(${TargetName} PRIVATE  SDL2::SDL2-static)
+target_link_libraries(${TargetName} PRIVATE "-framework Metal" "-framework QuartzCore") 
+
+
+
+add_custom_target(${TargetName}CopyShaders ALL
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${CMAKE_CURRENT_SOURCE_DIR}/shader.metal
+    $<TARGET_FILE_DIR:${TargetName}>/shader.metal
+)
